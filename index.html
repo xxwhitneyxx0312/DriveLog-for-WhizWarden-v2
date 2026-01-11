@@ -5,33 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>DriveLog Pro</title>
-    
     <link rel="manifest" href="./manifest.json">
-    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="DriveLog">
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/512/car.png">
     
     <style>
-        body {
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            user-select: none;
-            padding-top: env(safe-area-inset-top);
-            padding-bottom: env(safe-area-inset-bottom);
-            padding-left: env(safe-area-inset-left);
-            padding-right: env(safe-area-inset-right);
-        }
-        input, textarea {
-            user-select: auto;
-        }
-        .no-scrollbar::-webkit-scrollbar {
+        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        #debug-console {
             display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(255,0,0,0.9);
+            color: white;
+            padding: 10px;
+            z-index: 9999;
+            font-size: 12px;
+            word-break: break-all;
+            max-height: 50vh;
+            overflow-y: auto;
         }
     </style>
 
@@ -39,40 +31,40 @@
     <script type="importmap">
 {
   "imports": {
-    "recharts": "https://esm.sh/recharts@^3.6.0",
-    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
-    "react-dom": "https://esm.sh/react-dom@19.0.0",
     "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "recharts": "https://esm.sh/recharts@3.6.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "react/": "https://esm.sh/react@^19.2.3/"
   }
 }
 </script>
     <script>
-        // 捕捉腳本錯誤並顯示，方便手機調試
-        window.onerror = function(msg, url, line) {
-            const errDiv = document.createElement('div');
-            errDiv.style.color = 'red';
-            errDiv.style.position = 'fixed';
-            errDiv.style.top = '0';
-            errDiv.style.background = 'white';
-            errDiv.style.zIndex = '9999';
-            errDiv.style.fontSize = '12px';
-            errDiv.innerText = 'Error: ' + msg + '\nLine: ' + line;
-            document.body.appendChild(errDiv);
+        // 強化的錯誤顯示，如果 App 崩潰，會直接顯示原因
+        window.onerror = function(msg, url, line, col, error) {
+            const consoleEl = document.getElementById('debug-console');
+            consoleEl.style.display = 'block';
+            consoleEl.innerText += `\n[Error] ${msg} at ${line}:${col}\n${error?.stack || ''}`;
+            return false;
+        };
+        window.onunhandledrejection = function(event) {
+            const consoleEl = document.getElementById('debug-console');
+            consoleEl.style.display = 'block';
+            consoleEl.innerText += `\n[Promise Error] ${event.reason}`;
         };
     </script>
 </head>
-<body class="bg-gray-50 text-gray-900 overflow-x-hidden">
+<body class="bg-gray-50 text-gray-900">
+    <div id="debug-console"><b>Debug Console:</b></div>
     <div id="root">
         <div class="flex items-center justify-center h-screen">
             <div class="text-center">
                 <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-                <p class="mt-4 text-gray-500 font-medium">載入主程式中...</p>
+                <p class="mt-4 text-gray-500 font-medium">系統啟動中...</p>
             </div>
         </div>
     </div>
-    <!-- 關鍵：明確使用 ./index.tsx 並確保 type="module" -->
     <script type="module" src="./index.tsx"></script>
 </body>
 </html>

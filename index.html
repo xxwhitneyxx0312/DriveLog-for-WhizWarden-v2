@@ -11,64 +11,64 @@
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/512/car.png">
     
     <style>
-        body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { margin: 0; background: #f9fafb; font-family: -apple-system, system-ui, sans-serif; }
         #debug-console {
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0;
-            background: rgba(255,0,0,0.9);
+            background: #ff4d4d;
             color: white;
-            padding: 10px;
-            z-index: 9999;
-            font-size: 12px;
-            word-break: break-all;
-            max-height: 50vh;
-            overflow-y: auto;
+            padding: 15px;
+            z-index: 10000;
+            font-size: 13px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
     </style>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@19.0.0",
-    "react-dom": "https://esm.sh/react-dom@19.0.0",
-    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
-    "recharts": "https://esm.sh/recharts@3.6.0",
+    "react": "https://esm.sh/react@19.0.0?bundle",
+    "react-dom": "https://esm.sh/react-dom@19.0.0?bundle",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client?bundle",
+    "recharts": "https://esm.sh/recharts@3.6.0?bundle",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "react/": "https://esm.sh/react@^19.2.3/"
   }
 }
 </script>
+
     <script>
-        window.onerror = function(msg, url, line, col, error) {
-            const consoleEl = document.getElementById('debug-console');
-            if (consoleEl) {
-                consoleEl.style.display = 'block';
-                consoleEl.innerText += `\n[Error] ${msg} at ${line}:${col}`;
+        // 在最早期捕捉錯誤
+        (function() {
+            function showErr(msg) {
+                var el = document.getElementById('debug-console');
+                if (el) {
+                    el.style.display = 'block';
+                    el.innerHTML += '<div>' + msg + '</div>';
+                }
+                console.error(msg);
             }
-            return false;
-        };
-        window.onunhandledrejection = function(event) {
-            const consoleEl = document.getElementById('debug-console');
-            if (consoleEl) {
-                consoleEl.style.display = 'block';
-                consoleEl.innerText += `\n[Promise Error] ${event.reason}`;
-            }
-        };
+            window.onerror = function(m, u, l, c, e) { showErr('JS Error: ' + m + ' at ' + l + ':' + c); };
+            window.onunhandledrejection = function(e) { showErr('Promise Error: ' + e.reason); };
+        })();
     </script>
 </head>
-<body class="bg-gray-50 text-gray-900">
-    <div id="debug-console"><b>Debug Console (If you see this, there is an error):</b></div>
+<body>
+    <div id="debug-console"><b>系統錯誤報告:</b><br></div>
+    
     <div id="root">
-        <div class="flex items-center justify-center h-screen">
-            <div class="text-center">
-                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-                <p class="mt-4 text-gray-500 font-medium">系統啟動中...</p>
-            </div>
+        <div class="flex flex-col items-center justify-center h-screen bg-gray-50">
+            <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-indigo-600"></div>
+            <p class="mt-4 text-gray-500 font-medium animate-pulse">正在初始化行車日誌...</p>
         </div>
     </div>
-    <!-- 使用相對路徑，不依賴自動解析 -->
+
+    <!-- 這裡不使用 ./ 前綴，直接使用檔名 -->
     <script type="module" src="index.tsx"></script>
 </body>
 </html>

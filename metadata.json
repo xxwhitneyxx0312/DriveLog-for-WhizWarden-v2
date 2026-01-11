@@ -1,0 +1,7 @@
+{
+  "name": "DriveLog Pro",
+  "description": "A clean, efficient professional driving log application to track business and personal trips, integrated with driving data tracking for easy mileage reporting and export.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

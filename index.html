@@ -50,6 +50,7 @@
                     el.style.display = 'block';
                     el.innerHTML += '<div>' + msg + '</div>';
                 }
+                console.error(msg);
             }
             window.onerror = function(m, u, l, c, e) { showErr('JS Error: ' + m + ' at ' + l + ':' + c); };
             window.onunhandledrejection = function(e) { showErr('Promise Error: ' + e.reason); };

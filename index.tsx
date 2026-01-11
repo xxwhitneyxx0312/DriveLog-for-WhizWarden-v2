@@ -8,6 +8,7 @@ if (!rootElement) {
   throw new Error("Could not find root element to mount to");
 }
 
+// 確保在 GitHub Pages 環境下，React 能正確處理渲染
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>

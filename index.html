@@ -6,16 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>DriveLog Pro</title>
     
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
+    <!-- 改為相對路徑 ./ -->
+    <link rel="manifest" href="./manifest.json">
     
-    <!-- iOS PWA 支援 -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="DriveLog">
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/512/car.png">
     
-    <!-- 防止頁面在 iOS 上被隨意縮放 -->
     <style>
         body {
             -webkit-tap-highlight-color: transparent;
@@ -39,18 +37,26 @@
     </style>
 
     <script src="https://cdn.tailwindcss.com"></script>
-<script type="importmap">
-{
-  "imports": {
-    "recharts": "https://esm.sh/recharts@^3.6.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3"
-  }
-}
-</script>
+    <script type="importmap">
+    {
+      "imports": {
+        "recharts": "https://esm.sh/recharts@^3.6.0",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "react": "https://esm.sh/react@^19.2.3"
+      }
+    }
+    </script>
 </head>
 <body class="bg-gray-50 text-gray-900 overflow-x-hidden">
-    <div id="root"></div>
+    <div id="root">
+        <!-- 如果看到這個，代表 React 還在載入中 -->
+        <div class="flex items-center justify-center h-screen">
+            <div class="text-center">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+                <p class="mt-4 text-gray-500 font-medium">載入中...</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -3,21 +3,21 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 
-const rootElement = document.getElementById('root');
+// 確保 DOM 載入後才執行
+const mountApp = () => {
+    const rootElement = document.getElementById('root');
+    if (rootElement) {
+        const root = createRoot(rootElement);
+        root.render(
+            <React.StrictMode>
+                <App />
+            </React.StrictMode>
+        );
+    }
+};
 
-if (rootElement) {
-  try {
-    const root = createRoot(rootElement);
-    root.render(
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    );
-    console.log("DriveLog: React rendering started successfully.");
-  } catch (error) {
-    console.error("DriveLog: Critical error during initial render:", error);
-    rootElement.innerHTML = `<div style="padding:20px; color:red;"><h1>渲染失敗</h1><p>${error.message}</p></div>`;
-  }
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mountApp);
 } else {
-  console.error("DriveLog: Could not find root element in DOM.");
+    mountApp();
 }

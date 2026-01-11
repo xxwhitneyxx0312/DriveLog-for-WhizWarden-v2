@@ -43,7 +43,6 @@
 </script>
 
     <script>
-        // 在最早期捕捉錯誤
         (function() {
             function showErr(msg) {
                 var el = document.getElementById('debug-console');
@@ -51,7 +50,6 @@
                     el.style.display = 'block';
                     el.innerHTML += '<div>' + msg + '</div>';
                 }
-                console.error(msg);
             }
             window.onerror = function(m, u, l, c, e) { showErr('JS Error: ' + m + ' at ' + l + ':' + c); };
             window.onunhandledrejection = function(e) { showErr('Promise Error: ' + e.reason); };
@@ -68,7 +66,6 @@
         </div>
     </div>
 
-    <!-- 這裡不使用 ./ 前綴，直接使用檔名 -->
     <script type="module" src="index.tsx"></script>
 </body>
 </html>

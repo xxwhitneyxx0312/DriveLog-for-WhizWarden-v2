@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>DriveLog Pro</title>
     
-    <!-- 改為相對路徑 ./ -->
     <link rel="manifest" href="./manifest.json">
     
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -38,25 +37,42 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="importmap">
-    {
-      "imports": {
-        "recharts": "https://esm.sh/recharts@^3.6.0",
-        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-        "react/": "https://esm.sh/react@^19.2.3/",
-        "react": "https://esm.sh/react@^19.2.3"
-      }
-    }
+{
+  "imports": {
+    "recharts": "https://esm.sh/recharts@^3.6.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+    <script>
+        // 捕捉腳本錯誤並顯示，方便手機調試
+        window.onerror = function(msg, url, line) {
+            const errDiv = document.createElement('div');
+            errDiv.style.color = 'red';
+            errDiv.style.position = 'fixed';
+            errDiv.style.top = '0';
+            errDiv.style.background = 'white';
+            errDiv.style.zIndex = '9999';
+            errDiv.style.fontSize = '12px';
+            errDiv.innerText = 'Error: ' + msg + '\nLine: ' + line;
+            document.body.appendChild(errDiv);
+        };
     </script>
 </head>
 <body class="bg-gray-50 text-gray-900 overflow-x-hidden">
     <div id="root">
-        <!-- 如果看到這個，代表 React 還在載入中 -->
         <div class="flex items-center justify-center h-screen">
             <div class="text-center">
                 <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
-                <p class="mt-4 text-gray-500 font-medium">載入中...</p>
+                <p class="mt-4 text-gray-500 font-medium">載入主程式中...</p>
             </div>
         </div>
     </div>
+    <!-- 關鍵：明確使用 ./index.tsx 並確保 type="module" -->
+    <script type="module" src="./index.tsx"></script>
 </body>
 </html>
